@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public LogoutFilter logoutFilter() {
-        LogoutFilter filter = new LogoutFilter(SSO_URL + "logout", new SecurityContextLogoutHandler());
+        LogoutFilter filter = new LogoutFilter(SSO_URL + "logout?service=http://localhost:8080/", new SecurityContextLogoutHandler());
         return filter;
     }
 

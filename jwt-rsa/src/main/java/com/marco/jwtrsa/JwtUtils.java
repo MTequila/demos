@@ -56,9 +56,10 @@ public class JwtUtils {
     public static String buildJwtRS256() throws Exception {
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
-        //生成签名密钥
-
+        // 读取私钥
         String key = readResourceKey("/Users/marco/Documents/Marco/github/demos/jwt-rsa/src/main/resources/rsa_private_key.pem");
+
+        // 生成签名密钥
         byte[] keyBytes = (new BASE64Decoder()).decodeBuffer(key);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -68,6 +69,7 @@ public class JwtUtils {
                 .setSubject("token")
                 .signWith(signatureAlgorithm, privateKey);
 
+        // jwt中需要传递的内容
         builder.claim("id", 10001);
         return builder.compact();
     }
@@ -82,7 +84,10 @@ public class JwtUtils {
         Claims claims = null;
 
         try {
+            // 读取公钥
             String key = readResourceKey("/Users/marco/Documents/Marco/github/demos/jwt-rsa/src/main/resources/rsa_public_key.pem");
+
+            // 生成签名公钥
             byte[] keyBytes = (new BASE64Decoder()).decodeBuffer(key);
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
